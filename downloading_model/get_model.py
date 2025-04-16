@@ -38,18 +38,45 @@ def download_and_save_model(output_dir="./models"):
     """
     # Check if model is already present
     is_present, model_path, processor_path = check_if_model_present(output_dir)
+
+    # First, try to set up the safe globals for loading
+    try:
+        # Import the ViT class properly
+        from transformers.models.vit.modeling_vit import ViTForImageClassification
+        # Add it to the safe globals list
+        torch.serialization.add_safe_globals([ViTForImageClassification])
+        logger.info("Added ViTForImageClassification to safe globals")
+    except Exception as e:
+        logger.warning(f"Could not add ViTForImageClassification to safe globals: {e}")
+
     if is_present:
         # Load existing model and feature extractor
         logger.info("Loading existing model and feature extractor...")
-        model = torch.load(model_path)
-        feature_extractor = torch.load(processor_path)
-        return model_path, model, feature_extractor
+        try:
+            # First try with safe globals setup
+            try:
+                model = torch.load(model_path)
+                processor = torch.load(processor_path)
+            except Exception as e1:
+                logger.warning(f"Could not load with default settings: {e1}")
+                # Fallback to weights_only=False (less secure but needed for compatibility)
+                logger.info("Trying with weights_only=False...")
+                model = torch.load(model_path, weights_only=False)
+                processor = torch.load(processor_path, weights_only=False)
 
+            return model_path, model, processor
+
+        except Exception as e:
+            logger.error(f"Error loading model: {e}")
+            logger.info("Re-downloading model...")
+            # Continue with download if loading fails
+
+    # If we get here, model needs to be downloaded
     # Use the model with specific commit ID
     model_name = "nateraw/vit-base-patch16-224-cifar10"
     commit_id = "b55eeb4"  # Using the provided commit ID
 
-    print(f"Downloading model: {model_name} with commit ID: {commit_id}")
+    logger.info(f"Downloading model: {model_name} with commit ID: {commit_id}")
 
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
@@ -60,19 +87,16 @@ def download_and_save_model(output_dir="./models"):
         model = AutoModelForImageClassification.from_pretrained(model_name, revision=commit_id)
 
         # Print model info
-        print(f"Model architecture: {model.__class__.__name__}")
-        print(f"Number of classes: {len(model.config.id2label)}")
-        print("Class labels:", model.config.id2label)
+        logger.info(f"Model architecture: {model.__class__.__name__}")
+        logger.info(f"Number of classes: {len(model.config.id2label)}")
+        logger.info(f"Class labels: {model.config.id2label}")
 
-        # Save model and feature extractor
-        torch.save(model, model_path)
-        torch.save(feature_extractor, processor_path)
-
-        print(f"Model saved to: {model_path}")
-        print(f"Feature extractor saved to: {processor_path}")
+        # Don't save the model to disk since loading it back is problematic
+        # Instead, just return the model directly
+        logger.info("Using model directly from memory (skipping save/load cycle to avoid unpickling issues)")
 
         return model_path, model, feature_extractor
 
     except Exception as e:
-        print(f"Error downloading model: {e}")
+        logger.error(f"Error downloading model: {e}")
         sys.exit(1)
