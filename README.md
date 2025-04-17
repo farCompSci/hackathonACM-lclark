@@ -74,16 +74,16 @@ python main.py
     - The original image with critical pixels highlighted
 
 ## Project Structure
-├── downloading_models/      # Package for model setup <br/>
-├── handle_images/           # Package for image processing<br/>
-├── model_scanning/          # Package for model analysis and saliency maps<br/>
-├── images/                  # Storage for images <br/>
-\t   ├── input/               # Input images (CIFAR-10 or user-provided)<br/>
-\t   ├── output/              # Basic prediction visualizations<br/>
-\t   └── saliency_output/     # Saliency map visualizations<br/>
-├── models/                  # Storage for model files<br/>
-├── main.py                  # Main entry point<br/>
-└── requirements.txt         # Dependencies<br/>
+|─ downloading_models/      # Package for model setup <br/>
+|─ handle_images/           # Package for image processing<br/>
+|─ model_scanning/          # Package for model analysis and saliency maps<br/>
+|─ images/                  # Storage for images <br/>
+    └─ input/               # Input images (CIFAR-10 or user-provided)<br/>
+    └─ output/              # Basic prediction visualizations<br/>
+    └─ saliency_output/     # Saliency map visualizations<br/>
+|─ models/                  # Storage for model files<br/>
+|─ main.py                  # Main entry point<br/>
+|- requirements.txt         # Dependencies<br/>
 
 ## Future Enhancements
 
@@ -95,4 +95,7 @@ Future versions of this project could include:
 
 ## Acknowledgments
 
-This project uses the CIFAR-10 dataset collected by Alex Krizhevsky, Vinod Nair, and Geoffrey Hinton.
+This project uses the CIFAR-10 dataset collected by Alex Krizhevsky, Vinod Nair, and Geoffrey Hinton. The version used was fetched here: https://www.cs.toronto.edu/~kriz/cifar.html
+This project also uses ProtectAI's model scanner to ensure model security before usage. 
+The model used was fetched from huggingface with `model_id`: `nateraw/vit-base-patch16-224-cifar10`.
+
