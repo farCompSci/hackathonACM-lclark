@@ -178,6 +178,15 @@ def display_image_with_prediction(image, predicted_class, confidence, output_pat
         confidence (float): The prediction confidence
         output_path (str, optional): Path to save the visualization
     """
+
+    labels = ["airplane", "automobile", "bird", "cat","deer","dog","frog","horse","ship","truck"]
+
+    if 'LABEL' in str(predicted_class):
+        for i in range(10):
+            if predicted_class == f'LABEL_{i}':
+                predicted_class = labels[i]
+                break
+
     plt.figure(figsize=(10, 8))
     plt.imshow(image)
     plt.title(f"Predicted: {predicted_class}\nConfidence: {confidence:.2%}")

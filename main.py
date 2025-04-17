@@ -96,8 +96,9 @@ def run():
         sys.exit(0)
 
     # Select an image (first one for now, can be made interactive)
-    image_path = os.path.join(input_dir, image_files[0])
-    logger.info(f"Selected image: {image_files[0]}")
+    img_index = int(input("Select the index of the image to execute: (Refer to images/input)\n"))
+    image_path = os.path.join(input_dir, image_files[img_index])
+    logger.info(f"Selected image: {image_files[img_index]}")
 
     # Run inference
     inference_result = run_inference(model, processor, image_path)
@@ -106,7 +107,7 @@ def run():
         inputs, original_image, predicted_class, confidence, class_idx = inference_result
 
         # Display and save the prediction visualization
-        output_filename = f"prediction_{os.path.splitext(image_files[0])[0]}.png"
+        output_filename = f"prediction_{os.path.splitext(image_files[img_index])[0]}.png"
         output_path = os.path.join(output_dir, output_filename)
         display_image_with_prediction(original_image, predicted_class, confidence, output_path)
 
