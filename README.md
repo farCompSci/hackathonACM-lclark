@@ -65,7 +65,10 @@ While saliency maps show important regions, our "needle in the haystack" approac
 2. **Run the Application**:
 `python3 main.py`
 
-3. **Interpret Results**:
+3. **Input image index of the image**:
+You will be prompted for this one. Just refer to images/input, where the first image will have an index of `0`. 
+
+5. **Interpret Results**:
 - The application will create three kinds of visualizations in separate folders:
   - `images/output`: Basic predictions
   - `images/saliency_output`: Visualizations showing:
