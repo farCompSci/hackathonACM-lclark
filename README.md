@@ -60,10 +60,10 @@ While saliency maps show important regions, our "needle in the haystack" approac
 ## How to Use This Project
 
 1. **Setup Environment**:
-pip install -r requirements.txt
+`pip install -r requirements.txt`
 
 2. **Run the Application**:
-python main.py
+`python3 main.py`
 
 3. **Interpret Results**:
 - The application will create three kinds of visualizations in separate folders:
@@ -74,16 +74,16 @@ python main.py
     - The original image with critical pixels highlighted
 
 ## Project Structure
-|─ downloading_models/      # Package for model setup <br/>
-|─ handle_images/           # Package for image processing<br/>
-|─ model_scanning/          # Package for model analysis and saliency maps<br/>
-|─ images/                  # Storage for images <br/>
-    └─ input/               # Input images (CIFAR-10 or user-provided)<br/>
-    └─ output/              # Basic prediction visualizations<br/>
-    └─ saliency_output/     # Saliency map visualizations<br/>
-|─ models/                  # Storage for model files<br/>
-|─ main.py                  # Main entry point<br/>
-|- requirements.txt         # Dependencies<br/>
+|─ downloading_models/                &emsp; &emsp; &emsp; &emsp; # Package for model setup <br/>
+|─ handle_images/                     &emsp; &emsp; &emsp; &emsp; # Package for image processing<br/>
+|─ model_scanning/                    &emsp; &emsp; &emsp; &emsp; # Package for model analysis and saliency maps<br/>
+|─ images/                            &emsp; &emsp; &emsp; &emsp; &emsp; # Storage for images <br/>
+&emsp;    └─ input/                         &emsp; &emsp; &emsp; &emsp; &emsp; # Input images (CIFAR-10 or user-provided)<br/>
+&emsp;    └─ output/                        &emsp; &emsp; &emsp; &emsp; &emsp; # Basic prediction visualizations<br/>
+&emsp;    └─ saliency_output/               &emsp; &emsp; &emsp; &emsp; &emsp; # Saliency map visualizations<br/>
+|─ models/                            &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; # Storage for model files<br/>
+|─ main.py                            &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; # Main entry point<br/>
+|─ requirements.txt                   &emsp; &emsp; &emsp; &emsp; # Dependencies<br/>
 
 ## Future Enhancements
 
