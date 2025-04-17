@@ -78,9 +78,9 @@ python main.py
 ├── handle_images/           # Package for image processing <br/>
 ├── model_scanning/          # Package for model analysis and saliency maps <br/>
 ├── images/                  # Storage for images <br/>
-│   ├── input/               # Input images (CIFAR-10 or user-provided) <br/>
-│   ├── output/              # Basic prediction visualizations <br/>
-│   └── saliency_output/     # Saliency map visualizations <br/>
+ │   ├── input/               # Input images (CIFAR-10 or user-provided) <br/>
+ │   ├── output/              # Basic prediction visualizations <br/>
+ │   └── saliency_output/     # Saliency map visualizations <br/>
 ├── models/                  # Storage for model files <br/>
 ├── main.py                  # Main entry point <br/>
 └── requirements.txt         # Dependencies <br/>
