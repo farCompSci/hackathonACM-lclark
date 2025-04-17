@@ -6,3 +6,6 @@ matplotlib
 numpy
 pillow
 loguru
+flake8
+black
+isort
