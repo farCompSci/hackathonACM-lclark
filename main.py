@@ -1,83 +1,18 @@
-from downloading_model.get_model import download_and_save_model, check_if_model_present
-from model_scanning.model_scanning import scan_model_and_processor
-from loguru import logger
-import sys
-import torch
 import os
-from PIL import Image
+import sys
+
 import numpy as np
-import matplotlib.pyplot as plt
+import torch
+from loguru import logger
+from PIL import Image
 
-
-def setup_model():
-    """
-    Set up the model by either loading from disk or downloading.
-
-    Returns:
-        tuple: (model_path, processor_path, model, processor)
-    """
-    # Check if model is already present before downloading
-    is_present, model_path, processor_path = check_if_model_present()
-
-    if is_present:
-        logger.info("Loading existing model and feature extractor...")
-    else:
-        logger.info("Downloading model and feature extractor...")
-
-    model_path, model, processor = download_and_save_model()
-
-    return model_path, processor_path, model, processor
-
-
-def verify_model_security(model_path, processor_path):
-    """
-    Verify the security of the model and processor files.
-
-    Args:
-        model_path (str): Path to the model file
-        processor_path (str): Path to the processor file
-
-    Returns:
-        bool: True if security verification passed, False otherwise
-    """
-    logger.info("Scanning model and processor for security vulnerabilities...")
-    overall_safe, scan_results = scan_model_and_processor(model_path, processor_path)
-
-    if not overall_safe:
-        logger.warning("Security issues detected in model files!")
-        user_input = input("Security vulnerabilities were found. Continue anyway? (y/n): ")
-        if user_input.lower() != 'y':
-            logger.info("Exiting due to security concerns.")
-            return False
-        logger.warning("Continuing despite security concerns...")
-    else:
-        logger.success("Security scan completed successfully. No vulnerabilities found.")
-
-    return True
-
-
-def setup_image_directory():
-    """
-    Create the directory structure for storing images.
-
-    Returns:
-        tuple: (input_dir, output_dir) - paths to input and output image directories
-    """
-    # Create base image directory
-    image_dir = os.path.join(os.getcwd(), "images")
-    input_dir = os.path.join(image_dir, "input")
-    output_dir = os.path.join(image_dir, "output")
-
-    # Create directories if they don't exist
-    for directory in [image_dir, input_dir, output_dir]:
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-            logger.info(f"Created directory: {directory}")
-
-    logger.info(f"Image input directory: {input_dir}")
-    logger.info(f"Image output directory: {output_dir}")
-
-    return input_dir, output_dir
+from handle_images.image_helpers.image_helpers import (
+    display_image_with_prediction,
+    setup_image_directory,
+)
+from handle_images.saliency_functionality.saliency_helpers import run_saliency_analysis
+from handle_model_setup.setup_model import setup_model
+from model_scanning.model_scanning import verify_model_security
 
 
 def run_inference(model, processor, image_path):
@@ -134,28 +69,6 @@ def run_inference(model, processor, image_path):
     return inputs, original_image, predicted_class, confidence, class_idx
 
 
-def display_image_with_prediction(image, predicted_class, confidence, output_path=None):
-    """
-    Display the image with its prediction and optionally save it.
-
-    Args:
-        image: The image as a numpy array
-        predicted_class (str): The predicted class name
-        confidence (float): The prediction confidence
-        output_path (str, optional): Path to save the visualization
-    """
-    plt.figure(figsize=(10, 8))
-    plt.imshow(image)
-    plt.title(f"Predicted: {predicted_class}\nConfidence: {confidence:.2%}")
-    plt.axis('off')
-
-    if output_path:
-        plt.savefig(output_path)
-        logger.info(f"Saved prediction visualization to {output_path}")
-
-    plt.show()
-
-
 def run():
     """
     Run the complete Needle in a Haystack pipeline.
@@ -172,7 +85,7 @@ def run():
     logger.info("Model preparation and security scanning complete!")
 
     # Setup image directories
-    input_dir, output_dir = setup_image_directory()
+    input_dir, output_dir, saliency_output_dir = setup_image_directory()
 
     # Look for images in the input directory
     image_files = [f for f in os.listdir(input_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
@@ -197,6 +110,10 @@ def run():
         output_path = os.path.join(output_dir, output_filename)
         display_image_with_prediction(original_image, predicted_class, confidence, output_path)
 
+        # Run saliency map analysis
+        saliency_map, critical_pixels = run_saliency_analysis(model, processor, image_path, saliency_output_dir)
+
+        logger.info("Pipeline completed successfully!")
 
 if __name__ == '__main__':
     run()

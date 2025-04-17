@@ -1,6 +1,7 @@
 import subprocess
+from typing import Dict, List, Tuple, Union
+
 from loguru import logger
-from typing import List, Dict, Union, Tuple
 
 
 def scan_model_with_modelscan(model_path: str) -> int:
@@ -114,3 +115,30 @@ def scan_model_and_processor(model_path: str, processor_path: str) -> Tuple[bool
     overall_pass = all(code <= 0 for code in results.values())
 
     return overall_pass, results
+
+
+def verify_model_security(model_path, processor_path):
+    """
+    Verify the security of the model and processor files.
+
+    Args:
+        model_path (str): Path to the model file
+        processor_path (str): Path to the processor file
+
+    Returns:
+        bool: True if security verification passed, False otherwise
+    """
+    logger.info("Scanning model and processor for security vulnerabilities...")
+    overall_safe, scan_results = scan_model_and_processor(model_path, processor_path)
+
+    if not overall_safe:
+        logger.warning("Security issues detected in model files!")
+        user_input = input("Security vulnerabilities were found. Continue anyway? (y/n): ")
+        if user_input.lower() != 'y':
+            logger.info("Exiting due to security concerns.")
+            return False
+        logger.warning("Continuing despite security concerns...")
+    else:
+        logger.success("Security scan completed successfully. No vulnerabilities found.")
+
+    return True
