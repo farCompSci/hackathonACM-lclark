@@ -95,7 +95,8 @@ Future versions of this project could include:
 
 ## Acknowledgments
 
-This project uses the CIFAR-10 dataset collected by Alex Krizhevsky, Vinod Nair, and Geoffrey Hinton. The version used was fetched here: https://www.cs.toronto.edu/~kriz/cifar.html
-This project also uses ProtectAI's model scanner to ensure model security before usage. 
-The model used was fetched from huggingface with `model_id`: `nateraw/vit-base-patch16-224-cifar10`.
+This project uses the CIFAR-10 dataset collected by Alex Krizhevsky, Vinod Nair, and Geoffrey Hinton. The version used was fetched here: https://www.cs.toronto.edu/~kriz/cifar.html . <br/>
+This project also uses ProtectAI's model scanner to ensure model security before usage. This can be found here: https://github.com/protectai/modelscan/tree/main . <br/>
+The model used was fetched from huggingface with `model_id`: `nateraw/vit-base-patch16-224-cifar10`. <br/>
+All other dependecies used can be found in the `requirements.txt`, which include the packages and libraries I do not claim to have made.
 
