@@ -74,16 +74,16 @@ python main.py
     - The original image with critical pixels highlighted
 
 ## Project Structure
-├── downloading_models/      # Package for model setup
-├── handle_images/           # Package for image processing
-├── model_scanning/          # Package for model analysis and saliency maps
-├── images/                  # Storage for images
-│   ├── input/               # Input images (CIFAR-10 or user-provided)
-│   ├── output/              # Basic prediction visualizations
-│   └── saliency_output/     # Saliency map visualizations
-├── models/                  # Storage for model files
-├── main.py                  # Main entry point
-└── requirements.txt         # Dependencies
+├── downloading_models/      # Package for model setup <br/>
+├── handle_images/           # Package for image processing <br/>
+├── model_scanning/          # Package for model analysis and saliency maps <br/>
+├── images/                  # Storage for images <br/>
+│   ├── input/               # Input images (CIFAR-10 or user-provided) <br/>
+│   ├── output/              # Basic prediction visualizations <br/>
+│   └── saliency_output/     # Saliency map visualizations <br/>
+├── models/                  # Storage for model files <br/>
+├── main.py                  # Main entry point <br/>
+└── requirements.txt         # Dependencies <br/>
 
 ## Future Enhancements
 
