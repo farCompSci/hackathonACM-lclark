@@ -171,9 +171,9 @@ class SaliencyMapGenerator:
                 axes[2].plot(x, y, 'o', markersize=10,
                              markeredgecolor='white', markerfacecolor='none')
 
-                # Add rank text
-                axes[2].text(x + 5, y + 5, f"#{i + 1}", color='white',
-                             fontsize=12, fontweight='bold')
+                # Add rank text : uncomment if you want rank of importance
+                # axes[2].text(x + 5, y + 5, f"#{i + 1}", color='white',
+                #              fontsize=12, fontweight='bold')
 
         axes[2].set_title("Critical Pixels")
         axes[2].axis('off')
